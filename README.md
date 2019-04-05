@@ -1,1 +1,1 @@
-# homework_mantis
+# # homework for PDT-2 Python training. Part 9 Mantis
