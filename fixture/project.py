@@ -53,7 +53,11 @@ class ProjectManage:
         self.set_field_value("description", project.description)
         # добавляем проект
         wd.find_element_by_xpath("//input[@value='Add Project']")
-        wd.find_element_by_link_text("Proceed").click()
+        self.return_to_project_page()
 
+    def return_to_project_page(self):
+        wd = self.gen.wd
+        wd.find_element_by_link_text("Proceed").click()
+        wd.find_element_by_xpath("//input[@value='Add Project']")
 
 
