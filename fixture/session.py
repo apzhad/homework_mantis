@@ -10,18 +10,19 @@ class SessionManage:
         wd = self.gen.wd
         self.gen.open_home_page()
         # enter username and password for login
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
+        wd.find_element_by_name("username").click()
+        wd.find_element_by_name("username").clear()
+        wd.find_element_by_name("username").send_keys(username)
+        wd.find_element_by_name("password").click()
+        wd.find_element_by_name("password").clear()
+        wd.find_element_by_name("password").send_keys(password)
         # login
-        wd.find_element_by_xpath("//input[@value='Login']").click()
+        wd.find_element_by_css_selector("input[type='submit']").click()
 
     def logout(self):
         wd = self.gen.wd
         wd.find_element_by_link_text("Logout").click()
-        wd.find_element_by_name("user")
+        wd.find_element_by_name("username")
 
     def ensure_logout(self):
         if self.is_login():
@@ -45,4 +46,4 @@ class SessionManage:
 
     def get_logged_user(self):
         wd = self.gen.wd
-        return wd.find_element_by_xpath("//div[@id='top']/form/b").text[1:-1]
+        return wd.find_element_by_css_selector("td.login-info-left span").text
