@@ -26,7 +26,7 @@ class ProjectManage:
         wd = self.gen.wd
         if not (wd.current_url.endswith("/manage_overview_page.php") or wd.current_url.endswith("/manage_proj_page.php")):
             wd.find_element_by_link_text("Manage").click()
-        elif wd.current_url.endswith("/manage_overview_page.php") and len(
+        if wd.current_url.endswith("/manage_overview_page.php") and len(
                 wd.find_elements_by_link_text("Manage Projects")) > 0:
             wd.find_element_by_link_text("Manage Projects").click()
         wd.find_element_by_xpath("//input[@value='Create New Project']")
@@ -65,4 +65,21 @@ class ProjectManage:
         wd.find_element_by_link_text("Proceed").click()
         wd.find_element_by_xpath("//input[@value='Add Project']")
 
+    project_cache = None
 
+    def get_project_list(self):
+        if self.project_cache is None:
+            wd = self.gen.wd
+            self.open_manage_project()
+            self.project_cache = []
+            for i in wd.find_elements_by_css_selector("tr.row-2"):
+                cells = i.find_elements_by_tag_name("td")
+                name = cells[0].text
+                id = i.find_element_by_xpath("//a[contains(text(),'%s')]" % name).get_attribute('href')[-1]
+                status = cells[1].text
+                view_status = cells[3].text
+                description = cells[4].text
+                self.project_cache.append(Project(name=name, status=status, view_status=view_status,
+                                                  description=description, id=id))
+
+        return list(self.project_cache)
