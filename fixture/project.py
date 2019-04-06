@@ -16,15 +16,20 @@ class ProjectManage:
         wd = self.gen.wd
         if not (wd.current_url.endswith("/manage_proj_create_page.php") and len(
                 wd.find_elements_by_xpath("//input[@value='Add Project']")) > 0):
-            if not (wd.current_url.endswith("/manage_overview_page.php") or wd.current_url.endswith("/manage_proj_page.php")):
-                wd.find_element_by_link_text("Manage").click()
-            elif wd.current_url.endswith("/manage_overview_page.php") and len(
-               wd.find_elements_by_link_text("Manage Projects")) > 0:
-                wd.find_element_by_link_text("Manage Projects").click()
-            elif wd.current_url.endswith("/manage_proj_page.php") and len(
-                    wd.find_elements_by_link_text("Name")) > 0:
+            if not (wd.current_url.endswith("/manage_proj_page.php") and len(
+                    wd.find_elements_by_link_text("Name")) > 0):
+                self.open_manage_project()
                 wd.find_element_by_xpath("//input[@value='Create New Project']").click()
-            wd.find_element_by_xpath("//input[@value='Add Project']")
+        wd.find_element_by_xpath("//input[@value='Add Project']")
+
+    def open_manage_project(self):
+        wd = self.gen.wd
+        if not (wd.current_url.endswith("/manage_overview_page.php") or wd.current_url.endswith("/manage_proj_page.php")):
+            wd.find_element_by_link_text("Manage").click()
+        elif wd.current_url.endswith("/manage_overview_page.php") and len(
+                wd.find_elements_by_link_text("Manage Projects")) > 0:
+            wd.find_element_by_link_text("Manage Projects").click()
+        wd.find_element_by_xpath("//input[@value='Create New Project']")
 
     def set_field_value(self, field_name, text):
         wd = self.gen.wd
