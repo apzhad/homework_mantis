@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import Select
+from model.project import Project
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -38,20 +39,21 @@ class ProjectManage:
             wd.find_element_by_name(list_name).click()
             Select(wd.find_element_by_name(list_name)).select_by_visible_text(text)
 
-    def create_project(self, name, status, change_inherit_global, view_state, description):
+    def create_project(self, project):
         wd = self.gen.wd
         self.open_create_project()
         # заполняем имя проекта
-        self.set_field_value("name", name)
+        self.set_field_value("name", project.name)
         # выбираем статус проекта
-        self.select_from_list("status", status)
-        if change_inherit_global:
+        self.select_from_list("status", project.status)
+        if project.change_inherit_global:
             wd.find_element_by_name("inherit_global").click()
-        self.select_from_list("view_state", view_state)
+        self.select_from_list("view_state", project.view_status)
         # описание проекта
-        self.set_field_value("description", description)
+        self.set_field_value("description", project.description)
         # добавляем проект
         wd.find_element_by_xpath("//input[@value='Add Project']")
+        wd.find_element_by_link_text("Proceed").click()
 
 
 
