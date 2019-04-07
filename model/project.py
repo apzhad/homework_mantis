@@ -12,3 +12,8 @@ class Project:
     def __repr__(self):
         return "%s:%s:%s:%s:%s" % (self.id, self.name, self.status, self.view_status, self.description)
 
+    def __eq__(self, other):
+        return self.name == other.name and self.status == other.status
+
+    def sort_by_name(self):
+        return self.name
