@@ -51,7 +51,9 @@ class ProjectManage:
         self.set_field_value("name", project.name)
         # выбираем статус проекта
         self.select_from_list("status", project.status)
-        if project.change_inherit_global:
+        if project.inherit_global and not wd.find_element_by_name("inherit_global").is_selected():
+            wd.find_element_by_name("inherit_global").click()
+        elif not project.inherit_global and wd.find_element_by_name("inherit_global").is_selected():
             wd.find_element_by_name("inherit_global").click()
         self.select_from_list("view_state", project.view_status)
         # описание проекта

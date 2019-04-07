@@ -14,6 +14,7 @@ view_status = ["public", "private"]
 
 
 test_data = [Project(name=random_string("name", 10), status=random.choice(status),
+                     inherit_global=random.choice([True, False]),
                      view_status=random.choice(view_status), description=random_string("descr", 30))
              for i in range(5)]
 
