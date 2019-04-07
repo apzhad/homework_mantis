@@ -61,6 +61,16 @@ class ProjectManage:
         self.return_to_project_page()
         self.project_cache = None
 
+    def delete_project(self, project):
+        wd = self.gen.wd
+        self.open_manage_project()
+        wd.find_element_by_link_text(project.name).click()
+        wd.find_element_by_xpath("//input[@value='Delete Project']").click()
+        wd.find_element_by_xpath("//input[@value='Delete Project']").click()
+        wd.find_element_by_xpath("//input[@value='Create New Project']")
+        wd.find_element_by_xpath("//input[@value='Add Category']")
+        self.project_cache = None
+
     def return_to_project_page(self):
         wd = self.gen.wd
         if not wd.find_elements_by_css_selector('td.form-title'):
