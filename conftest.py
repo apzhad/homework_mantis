@@ -28,7 +28,7 @@ def gen(request, config):
     browser = request.config.getoption("--browser")
     # login_info = config["webadmin"]
     if fixture is None or not fixture.is_valid():
-        fixture = Generic(browser=browser, base_url=config["web"]["base_url"])
+        fixture = Generic(browser=browser, config=config)
     # fixture.session.ensure_login(username=login_info["username"], password=login_info["password"])
     return fixture
 

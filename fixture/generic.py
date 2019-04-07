@@ -7,7 +7,7 @@ from fixture.james import JamesManage
 
 class Generic:
 
-    def __init__(self, browser, base_url):
+    def __init__(self, browser, config):
         if browser == "firefox":
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
@@ -18,7 +18,8 @@ class Generic:
             self.wd = webdriver.Ie()
         else:
             raise ValueError("Unrecognized browser %s" % browser)
-        self.base_url = base_url
+        self.base_url = config["web"]["base_url"]
+        self.config = config
         self.wd.implicitly_wait(1)
         self.session = SessionManage(self)
         self.project = ProjectManage(self)
