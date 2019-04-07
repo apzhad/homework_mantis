@@ -21,6 +21,7 @@ test_data = [Project(name=random_string("name", 10), status=random.choice(status
 
 @pytest.mark.parametrize("project", test_data, ids=[repr(x) for x in test_data])
 def test_add_project(gen, project):
+    gen.session.login("administrator", "root")
     old_list = gen.project.get_project_list()
     gen.project.create_project(project)
     new_list = gen.project.get_project_list()

@@ -3,6 +3,7 @@ from model.project import Project
 
 
 def test_del_project(gen):
+    gen.session.login("administrator", "root")
     if gen.project.get_project_list() == 0:
         gen.project.create_project(Project(name="name", status="release", inherit_global=False, view_status="public"))
     old_list = gen.project.get_project_list()
