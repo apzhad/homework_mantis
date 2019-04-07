@@ -13,6 +13,7 @@ def test_signup_new_account(gen):
     email = username + "@localhost"
     gen.james.ensure_user_exists(username, password)
     gen.signup.new_user(username, password, email)
+    assert gen.soap.can_login(username, password)
     gen.session.login(username, password)
     assert gen.session.is_login_as(username)
     gen.session.logout()
