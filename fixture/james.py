@@ -19,10 +19,14 @@ class JamesManage:
             self.telnet.read_until("Welcome root. HELP for a list of commands", 5)
 
         def is_user_registered(self, username):
-            pass
+            self.telnet.write("verify %s\n" % username)
+            res = self.telnet.expect(["exists", "does not exists"])
+            return res[0] == 0
 
         def create_user(self, username, password):
-            pass
+            self.telnet.write("adduser %s %s\n" % (username, password))
+            self.telnet.read_until("User %s added" % username, 5)
 
         def reset_password(self, username, password):
-            pass
+            self.telnet.write("setpassword %s %s\n" % (username, password))
+            self.telnet.read_until("Password for %s reset" % username, 5)
