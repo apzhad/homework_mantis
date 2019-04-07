@@ -19,7 +19,7 @@ class ProjectManage:
             if not (wd.current_url.endswith("/manage_proj_page.php") and len(
                     wd.find_elements_by_link_text("Name")) > 0):
                 self.open_manage_project()
-                wd.find_element_by_xpath("//input[@value='Create New Project']").click()
+            wd.find_element_by_xpath("//input[@value='Create New Project']").click()
         wd.find_element_by_xpath("//input[@value='Add Project']")
 
     def open_manage_project(self):
@@ -57,13 +57,14 @@ class ProjectManage:
         # описание проекта
         self.set_field_value("description", project.description)
         # добавляем проект
-        wd.find_element_by_xpath("//input[@value='Add Project']")
+        wd.find_element_by_xpath("//input[@value='Add Project']").click()
         self.return_to_project_page()
+        self.project_cache = None
 
     def return_to_project_page(self):
         wd = self.gen.wd
         wd.find_element_by_link_text("Proceed").click()
-        wd.find_element_by_xpath("//input[@value='Add Project']")
+        wd.find_element_by_xpath("//input[@value='Create New Project']")
 
     project_cache = None
 
@@ -72,10 +73,22 @@ class ProjectManage:
             wd = self.gen.wd
             self.open_manage_project()
             self.project_cache = []
-            project_table = wd.find_elements_by_css_selector("tr.row-1")[:-1] + wd.find_elements_by_css_selector("tr.row-2")
-            for i in project_table:
+            for i in wd.find_elements_by_css_selector("tr.row-1"):
                 cells = i.find_elements_by_tag_name("td")
                 name = cells[0].text
+                if name == "General":
+                    break
+                id = i.find_element_by_xpath("//a[contains(text(),'%s')]" % name).get_attribute('href')[-1]
+                status = cells[1].text
+                view_status = cells[3].text
+                description = cells[4].text
+                self.project_cache.append(Project(name=name, status=status, view_status=view_status,
+                                                  description=description, id=id))
+            for i in wd.find_elements_by_css_selector("tr.row-2"):
+                cells = i.find_elements_by_tag_name("td")
+                name = cells[0].text
+                if name == "General":
+                    break
                 id = i.find_element_by_xpath("//a[contains(text(),'%s')]" % name).get_attribute('href')[-1]
                 status = cells[1].text
                 view_status = cells[3].text
