@@ -72,7 +72,8 @@ class ProjectManage:
             wd = self.gen.wd
             self.open_manage_project()
             self.project_cache = []
-            for i in wd.find_elements_by_css_selector("tr.row-2"):
+            project_table = wd.find_elements_by_css_selector("tr.row-1")[:-1] + wd.find_elements_by_css_selector("tr.row-2")
+            for i in project_table:
                 cells = i.find_elements_by_tag_name("td")
                 name = cells[0].text
                 id = i.find_element_by_xpath("//a[contains(text(),'%s')]" % name).get_attribute('href')[-1]
@@ -81,5 +82,4 @@ class ProjectManage:
                 description = cells[4].text
                 self.project_cache.append(Project(name=name, status=status, view_status=view_status,
                                                   description=description, id=id))
-
         return list(self.project_cache)
