@@ -13,7 +13,8 @@ class Project:
         return "%s:%s:%s:%s:%s" % (self.id, self.name, self.status, self.view_status, self.description)
 
     def __eq__(self, other):
-        return self.name == other.name and self.status == other.status
+        return self.name == other.name and (
+                self.id is None or other.id is None or self.id == other.id) and self.status == other.status
 
     def sort_by_name(self):
         return self.name
