@@ -63,8 +63,9 @@ class ProjectManage:
 
     def return_to_project_page(self):
         wd = self.gen.wd
-        wd.find_element_by_link_text("Proceed").click()
-        wd.find_element_by_xpath("//input[@value='Create New Project']")
+        if not wd.find_elements_by_css_selector('td.form-title'):
+            wd.find_element_by_link_text("Proceed").click()
+            wd.find_element_by_xpath("//input[@value='Create New Project']")
 
     project_cache = None
 
