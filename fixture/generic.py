@@ -5,6 +5,7 @@ from fixture.project import ProjectManage
 from fixture.james import JamesManage
 from fixture.mail import MailManage
 from fixture.signup import SignupManage
+from fixture.soap import SoapManage
 
 
 class Generic:
@@ -28,6 +29,7 @@ class Generic:
         self.james = JamesManage(self)
         self.mail = MailManage(self)
         self.signup = SignupManage(self)
+        self.soap = SoapManage(self)
 
     def open_home_page(self):
         wd = self.wd
