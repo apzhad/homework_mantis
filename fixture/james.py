@@ -6,27 +6,40 @@ class JamesManage:
         self.gen = gen
 
     def ensure_user_exists(self, username, password):
-        pass
+        session = JamesManage.Session("localhost", 4555, "root", "root")
+        if session.is_user_registered(username):
+            session.reset_password(username, password)
+        else:
+            session.create_user(username, password)
 
     class Session:
 
         def __init__(self, host, port, username, password):
             self.telnet = Telnet(host, port, 5)
-            self.telnet.read_until("Login id:", 5)
-            self.telnet.write(username + "\n")
-            self.telnet.read_until("Password:", 5)
-            self.telnet.write(password + "\n")
-            self.telnet.read_until("Welcome root. HELP for a list of commands", 5)
+            self.read_until("Login id:")
+            self.write(username + "\n")
+            self.read_until("Password:")
+            self.write(password + "\n")
+            self.read_until("Welcome root. HELP for a list of commands")
+
+        def read_until(self, text):
+            self.telnet.read_until(text.encode('ascii'), 5)
+
+        def write(self, text):
+            self.telnet.write(text.encode('ascii'))
 
         def is_user_registered(self, username):
-            self.telnet.write("verify %s\n" % username)
-            res = self.telnet.expect(["exists", "does not exists"])
+            self.write("verify %s\n" % username)
+            res = self.telnet.expect([b"exists", b"does not exist"])
             return res[0] == 0
 
         def create_user(self, username, password):
-            self.telnet.write("adduser %s %s\n" % (username, password))
-            self.telnet.read_until("User %s added" % username, 5)
+            self.write("adduser %s %s\n" % (username, password))
+            self.read_until("User %s added" % username)
 
         def reset_password(self, username, password):
-            self.telnet.write("setpassword %s %s\n" % (username, password))
-            self.telnet.read_until("Password for %s reset" % username, 5)
+            self.write("setpassword %s %s\n" % (username, password))
+            self.read_until("Password for %s reset" % username)
+
+        def quit(self):
+            self.write("quit\n")
