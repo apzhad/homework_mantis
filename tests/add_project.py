@@ -23,7 +23,13 @@ def test_add_project(gen, project):
     old_list = gen.project.get_project_list()
     gen.project.create_project(project)
     new_list = gen.project.get_project_list()
-    assert len(old_list)+1 == len(new_list)
-    old_list.append(project)
+    names = []
+    for i in old_list:
+        names.append(i.name)
+    if project.name in names or project.name == "":
+        assert len(old_list) == len(new_list)
+    else:
+        assert len(old_list)+1 == len(new_list)
+        old_list.append(project)
     assert sorted(old_list, key=Project.sort_by_name) == sorted(new_list, key=Project.sort_by_name)
 
