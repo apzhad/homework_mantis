@@ -2,6 +2,7 @@
 from selenium import webdriver
 from fixture.session import SessionManage
 from fixture.project import ProjectManage
+from fixture.james import JamesManage
 
 
 class Generic:
@@ -21,6 +22,7 @@ class Generic:
         self.wd.implicitly_wait(1)
         self.session = SessionManage(self)
         self.project = ProjectManage(self)
+        self.james = JamesManage(self)
 
     def open_home_page(self):
         wd = self.wd
