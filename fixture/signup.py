@@ -22,4 +22,4 @@ class SignupManage:
         wd.find_element_by_css_selector("input[value='Update User']").click()
 
     def extract_confirm_url(self, text):
-        return re.search("http://.*$", text).group(0)
+        return re.search("http://.*$", text, re.MULTILINE).group(0)
