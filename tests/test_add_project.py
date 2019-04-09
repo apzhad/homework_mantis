@@ -21,12 +21,10 @@ test_data = [Project(name=random_string("name", 10), status=random.choice(status
 
 @pytest.mark.parametrize("project", test_data, ids=[repr(x) for x in test_data])
 def test_add_project(gen, project):
-    username = gen.config["webadmin"]["username"]
-    password = gen.config["webadmin"]["password"]
-    gen.session.ensure_login(username=username, password=password)
-    old_list = gen.soap.get_project_list(username, password)
+    gen.session.ensure_login()
+    old_list = gen.soap.get_project_list()
     gen.project.create_project(project)
-    new_list = gen.soap.get_project_list(username, password)
+    new_list = gen.soap.get_project_list()
     names = []
     for i in old_list:
         names.append(i.name)
