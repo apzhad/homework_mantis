@@ -16,6 +16,10 @@ class SoapManage:
             return False
 
     def get_project_list(self, username, password):
+        if username is None:
+            username = self.gen.config["webadmin"]["username"]
+        if password is None:
+            password = self.gen.config["webadmin"]["password"]
         client = Client("http://localhost/mantisbt-1.2.20/api/soap/mantisconnect.php?wsdl")
         project_data = client.service.mc_projects_get_user_accessible(username, password)
         project_list = []

@@ -28,7 +28,11 @@ class SessionManage:
         if self.is_login():
             self.logout()
 
-    def ensure_login(self, username, password):
+    def ensure_login(self, username=None, password=None):
+        if username is None:
+            username = self.gen.config["webadmin"]["username"]
+        if password is None:
+            password = self.gen.config["webadmin"]["password"]
         if self.is_login():
             if self.is_login_as(username):
                 return
