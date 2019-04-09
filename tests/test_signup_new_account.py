@@ -8,6 +8,8 @@ def random_username(prefix, max_length):
 
 
 def test_signup_new_account(gen):
+    if gen.session.is_login():
+        gen.session.logout()
     username = random_username("user_", 10)
     password = "pass"
     email = username + "@localhost"
