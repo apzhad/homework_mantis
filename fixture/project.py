@@ -1,10 +1,5 @@
 from selenium.webdriver.support.ui import Select
 from model.project import Project
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-import os
-import re
 
 
 class ProjectManage:
