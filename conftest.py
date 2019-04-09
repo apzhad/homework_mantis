@@ -48,7 +48,7 @@ def install_server_conf(host, username, password):
             remote.remove("config_inc.php.bak")
         if remote.path.isfile("config_inc.php"):
                 remote.rename("config_inc.php", "config_inc.php.bak")
-        remote.upload((os.path.join(os.path.dirname(__file__), "resources/config_inc.php")),"config_inc.php")
+        remote.upload((os.path.join(os.path.dirname(__file__), "resources/config_inc.php")), "config_inc.php")
 
 
 def restore_server_conf(host, username, password):

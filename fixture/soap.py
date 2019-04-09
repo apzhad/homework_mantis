@@ -15,7 +15,7 @@ class SoapManage:
         except WebFault:
             return False
 
-    def get_project_list(self, username, password):
+    def get_project_list(self, username=None, password=None):
         if username is None:
             username = self.gen.config["webadmin"]["username"]
         if password is None:
